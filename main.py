@@ -383,7 +383,7 @@ def main():
 			ex.basebot()
 			pass
 		elif st.session_state.option == 'Prompt Design Template':
-			# Code for Agent Chatbot Exercise
+			# Code 
 			ex.prompt_design()
 			pass
 		elif st.session_state.option == 'OpenAI Basebot with Prompt Design':
@@ -414,6 +414,7 @@ def main():
 			pass
 		elif st.session_state.option == 'OpenAI Basebot with Memory & RAG & recorded':
 			# Code for Gen AI Prototype Exercise
+			ex.prompt_design_memory()
 			ex.basebot_prompt_design_memory_rag_data()
 			pass
 		elif st.session_state.option == 'Rule Based Chatbot':

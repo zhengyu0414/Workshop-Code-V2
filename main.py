@@ -410,11 +410,11 @@ def main():
 			pass
 		elif st.session_state.option == 'Database':
 			# Code for Agent Chatbot Exercise
-			ex.show_rag_results()
+			ex.initialise()
 			pass
 		elif st.session_state.option == 'OpenAI Basebot with Memory & RAG & recorded':
 			# Code for Gen AI Prototype Exercise
-			ex.basebot_prompt_design_memory_rag_recorded()
+			ex.basebot_prompt_design_memory_rag_data()
 			pass
 		elif st.session_state.option == 'Rule Based Chatbot':
 			# Code for Rule Based Chatbot

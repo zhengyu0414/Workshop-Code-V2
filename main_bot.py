@@ -1,5 +1,6 @@
 import streamlit as st
 import openai
+from openai import OpenAI
 import sqlite3
 from authenticate import return_api_key
 from datetime import datetime
@@ -16,6 +17,10 @@ import configparser
 import os
 from Markdown2docx import Markdown2docx
 
+client = OpenAI(
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=return_api_key(),
+)
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -176,7 +181,7 @@ def chat_completion_qa_memory(prompt):
 	openai.api_key = return_api_key()
 	os.environ["OPENAI_API_KEY"] = return_api_key()
 	prompt_template = memory_buffer_qa_component(prompt)
-	response = openai.ChatCompletion.create(
+	response = client.chat.completions.create(
 		model=st.session_state.openai_model,
 		messages=[
 			{"role": "system", "content":prompt_template },
@@ -274,7 +279,7 @@ def chat_completion_memory(prompt):
 	os.environ["OPENAI_API_KEY"] = return_api_key()	
 	prompt_template = memory_buffer_component()
 	#st.write("Prompt Template ", prompt_template)
-	response = openai.ChatCompletion.create(
+	response = client.chat.completions.create(
 		model=st.session_state.openai_model,
 		messages=[
 			{"role": "system", "content":prompt_template },
@@ -357,7 +362,7 @@ def basebot_memory(bot_name):
 def chat_completion(prompt):
 	openai.api_key = return_api_key()
 	os.environ["OPENAI_API_KEY"] = return_api_key()
-	response = openai.ChatCompletion.create(
+	response = client.chat.completions.create(
 		model=st.session_state.openai_model,
 		messages=[
 			{"role": "system", "content": st.session_state.chatbot},
@@ -443,7 +448,7 @@ def chat_completion_qa(prompt):
 	os.environ["OPENAI_API_KEY"] = return_api_key()
 	#show the qa component results in the prompt
 	prompt_template = qa_component(prompt)
-	response = openai.ChatCompletion.create(
+	response = client.chat.completions.create(
 		model=st.session_state.openai_model,
 		messages=[
 			{"role": "system", "content":prompt_template },

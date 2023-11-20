@@ -1,8 +1,14 @@
 import openai
+from openai import OpenAI
 import streamlit as st
 from authenticate import return_api_key
 import os
 import pandas as pd
+
+client = OpenAI(
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=return_api_key(),
+)
 
 def call_api():
 	prompt_design = st.text_input("Enter your the prompt design for the API call:", value="You are a helpful assistant.")
@@ -20,7 +26,7 @@ def api_call(p_design, p_query):
 	st.title("Api Call")
 	MODEL = "gpt-3.5-turbo"
 	with st.status("Calling the OpenAI API..."):
-		response = openai.ChatCompletion.create(
+		response = client.chat.completions.create(
 			model=MODEL,
 			messages=[
 				{"role": "system", "content": p_design},

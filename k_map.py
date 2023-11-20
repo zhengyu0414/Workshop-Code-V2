@@ -1,10 +1,15 @@
 import streamlit as st
-import openai
+from openai import OpenAI
 from plantuml import PlantUML
 from authenticate import return_api_key
 from streamlit.components.v1 import html
 import os
 import re
+
+client = OpenAI(
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=return_api_key(),
+)
 
 # Create or check for the 'database' directory in the current working directory
 cwd = os.getcwd()
@@ -116,10 +121,9 @@ def map_prompter_with_mermaid_syntax(bot_response):
 def generate_mindmap(prompt):
     
     try:
-        openai.api_key = return_api_key()
         os.environ["OPENAI_API_KEY"] = return_api_key()
         # Generate response using OpenAI API
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
                                         model=st.session_state.openai_model, 
                                         messages=[{"role": "user", "content": prompt}],
                                         temperature=st.session_state.temp, #settings option
@@ -133,13 +137,6 @@ def generate_mindmap(prompt):
             extracted_code = extract_mermaid_syntax(msg)
             st.write(extracted_code)
             return extracted_code
-            
-            
-
-    except openai.APIError as e:
-        st.error(e)
-        st.error("Please type in a new topic or change the words of your topic again")
-        return False
 
     except Exception as e:
         st.error(e)
@@ -193,10 +190,9 @@ def map_prompter_with_plantuml(response):
 def generate_plantuml_mindmap(prompt):
     
     try:
-        openai.api_key = return_api_key()
         os.environ["OPENAI_API_KEY"] = return_api_key()
         # Generate response using OpenAI API
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
                                         model=st.session_state.openai_model, 
                                         messages=[{"role": "user", "content": prompt}],
                                         temperature=st.session_state.temp, #settings option
@@ -210,11 +206,6 @@ def generate_plantuml_mindmap(prompt):
             modified_syntax = re.sub(r'(\*+) \[', r'\1[', p_syntax)
             return modified_syntax
             
-
-    except openai.APIError as e:
-        st.error(e)
-        st.error("Please type in a new topic or change the words of your topic again")
-        return False
 
     except Exception as e:
         st.error(e)

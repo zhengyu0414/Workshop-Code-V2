@@ -8,7 +8,9 @@ from kb_module import display_vectorstores, create_vectorstore, delete_vectorsto
 from authenticate import login_function,check_password
 from class_dash import download_data_table_csv
 from agent import agent_bot, agent_management, wiki_search, YouTubeSearchTool, DuckDuckGoSearchRun
-from lesson_plan import lesson_collaborator, lesson_commentator, lesson_bot, lesson_map_generator, lesson_design_options
+from chatbot import call_api, api_call, rule_based
+from prototype_application import my_first_app, prototype_settings, my_first_app_advance
+from analytics_dashboard import pandas_ai
 #New schema move function fom settings
 from database_schema import create_dbs
 import exercises as ex
@@ -49,6 +51,7 @@ from users_module import (
 )
 
 from bot_settings import bot_settings_interface, load_bot_settings
+from openai_features import generate_image, record_myself, upload_audio, analyse_image, text_to_speech
 from PIL import Image
 import configparser
 import ast
@@ -101,6 +104,7 @@ CONVERSATION = config_handler.get_value('constants', 'CONVERSATION')
 MINDMAP = config_handler.get_value('constants', 'MINDMAP')
 METACOG = config_handler.get_value('constants', 'METACOG')
 ACK = config_handler.get_value('application_agreement', 'ACK')
+PROTOTYPE = config_handler.get_value('constants', 'PROTOTYPE')
 
 def is_function_disabled(function_name):
 	#st.write("Function name: ", function_name)
@@ -215,9 +219,19 @@ def main():
 		if "chat_response" not in st.session_state:
 			st.session_state.chat_response = ""
 
+		#useful session state variables for testing and debugging
+		#not in use for production
+		if "test1"	not in st.session_state:
+			st.session_state.test1 = ""
+		
+		if "test2"	not in st.session_state:
+			st.session_state.test2 = ""
+		
+		#These functions below will create the initial database and administator account
 		create_dbs()
 		initialise_admin_account()
-		#PLEASE REMOVE THIS 
+
+		#PLEASE REMOVE THIS or COMMENT IT 
 		#st.write("User Profile: ", st.session_state.user)
 		
 		#PLEASE REMOVE ABOVE
@@ -251,8 +265,8 @@ def main():
 
 					sac.MenuItem('GenAI Features & Apps', icon='book', children=[
 						sac.MenuItem(return_function_name('AI Analytics'), icon='graph-up', disabled=is_function_disabled('AI Analytics')),
-						sac.MenuItem(return_function_name('Image Generator'), icon='camera', disabled=is_function_disabled('Image Generator')),
-						sac.MenuItem(return_function_name('Voice'), icon='mic',disabled=is_function_disabled('Voice')),
+						sac.MenuItem(return_function_name('Image Generator','Image Analyser and Generator'), icon='camera', disabled=is_function_disabled('Image Generator')),
+						sac.MenuItem(return_function_name('Voice','Voice Analyser and Generator'), icon='mic',disabled=is_function_disabled('Voice')),
 					]),	
 
 
@@ -356,81 +370,119 @@ def main():
 			pass
 		elif st.session_state.option == 'AI Analytics':
 			# Code for AI Analytics
+			st.subheader(f":green[{st.session_state.option}]")
+			pandas_ai(st.session_state.user['id'], st.session_state.user['school_id'], st.session_state.user['profile_id'])
 			pass
-		elif st.session_state.option == 'Image Generator':
+		elif st.session_state.option == 'Image Analyser and Generator':
 			# Code for Image Generator
+			st.subheader(f":green[{st.session_state.option}]")
+			generate_image()
+			st.divider()
+			analyse_image()
 			pass
-		elif st.session_state.option == 'Voice':
+		elif st.session_state.option == 'Voice Analyser and Generator':
+			st.subheader(f":green[{st.session_state.option}]")
 			# Code for Voice
+			upload_audio()
+			st.divider()
+			record_myself()
+			st.divider()
+			text_to_speech()
 			pass
 		elif st.session_state.option == 'Streamlit App (Exercise)':
-			#st.write("Call your streamlit_app function here")
+			# Code for Streamlit App Exercise
+			# Call the streamlit app exercise function here
 			ex.streamlit_app()
 			pass
 		elif st.session_state.option == 'Rule Based Chatbot (Exercise)':
 			# Code for Rule Based Chatbot Exercise
+			# Call the rule based chatbot exercise function here
 			ex.rule_based_chatbot()
 			pass
 		elif st.session_state.option == 'Open AI API Call (Exercise)':
-			# Code for Open AI API Call Exercise
+			# call the API call exercise function here
 			ex.api_call_exercise()
+			st.divider()
+			# Call the API challenge function here
 			ex.call_api_challenge()
 			pass
 		elif st.session_state.option == 'OpenAI Basebot':
+			# call the API call exercise function here
 			ex.ai_chatbot()
 			pass
 		elif st.session_state.option == 'OpenAI Basebot with streaming':
+			# call the openai basebot with streaming function here
 			ex.basebot()
 			pass
 		elif st.session_state.option == 'Prompt Design Template':
-			# Code 
+			# call the prompt design function here
 			ex.prompt_design()
 			pass
 		elif st.session_state.option == 'OpenAI Basebot with Prompt Design':
-			# Code for Agent Chatbot Exercise
+			# call the openai basebot with prompt design function here
 			ex.prompt_design()
 			ex.basebot_prompt_design()
 			pass
 		elif st.session_state.option == 'Memory':
-			# Code for Agent Chatbot Exercise
+			# call the memory function here
 			ex.return_memory()
 			pass
 		elif st.session_state.option == 'OpenAI Basebot with Memory':
-			# Code for Agent Chatbot Exercise
-			ex.prompt_design_memory()
+			# call the openai basebot with memory function here
+			ex.prompt_design()
 			ex.basebot_prompt_design_memory()
 			pass
 		elif st.session_state.option == 'RAG':
-			# Code for Agent Chatbot Exercise
+			# call the RAG function here
 			ex.show_rag_results()
 			pass
 		elif st.session_state.option == 'OpenAI Basebot with Memory & RAG':
-			# Code for Agent Chatbot Exercise
+			# call the openai basebot with memory and RAG function here
+			ex.prompt_design()
 			ex.basebot_prompt_design_memory_rag()
 			pass
 		elif st.session_state.option == 'Database':
-			# Code for Agent Chatbot Exercise
+			# call the database function here
 			ex.initialise()
 			pass
 		elif st.session_state.option == 'OpenAI Basebot with Memory & RAG & recorded':
-			# Code for Gen AI Prototype Exercise
-			ex.prompt_design_memory()
+			# call the openai basebot with memory and RAG function and recorded data here
+			ex.prompt_design()
 			ex.basebot_prompt_design_memory_rag_data()
 			pass
+		elif st.session_state.option == 'GenAi prototype Application(Exercise)':
+			#call the prototype application function here
+			ex.prototype_application()
+		
+		elif st.session_state.option == 'Agent Chatbot(Exercise)':
+			#call the agent chatbot function here
+			pass
+
 		elif st.session_state.option == 'Rule Based Chatbot':
-			# Code for Rule Based Chatbot
+			# Code for Rule Based Chatbot - Zerocode
+			rule_based()
 			pass
 		elif st.session_state.option == 'Open AI API Call':
 			# Code for Open AI API Call
+			call_api()
 			pass
 		elif st.session_state.option == 'Prototype Application':
-			# Code for Prototype Application
+			# Code for Prototype Application - Zerocode
+			st.subheader(f":green[{st.session_state.option}]")
+			on = st.toggle('Advance Chatbot')
+			if on:
+				my_first_app_advance(PROTOTYPE)
+			else:
+				my_first_app(PROTOTYPE)
 			pass
 		elif st.session_state.option == 'Prototype Settings':
-			# Code for Prototype Settings
+			# Code for Prototype Settings - Zerocode
+			st.subheader(f":green[{st.session_state.option}]")
+			prototype_settings()
 			pass
+
 		elif st.session_state.option == 'AI Chatbot':
-			
+			#Code for AI Chatbot - ZeroCode
 			st.write("Current Chatbot Template: ", st.session_state.chatbot)
 			#check if API key is entered
 			with st.expander("Chatbot Settings"):

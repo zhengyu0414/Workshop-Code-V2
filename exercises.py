@@ -45,6 +45,7 @@ client = OpenAI(
 # client = OpenAI()
 #exercise 1 - python recap and streamlit
 def streamlit_app():
+	st.title("Streamlit App Exercise")
 	# Initialize session state
 	if 'participants' not in st.session_state:
 		st.session_state['participants'] = []
@@ -139,7 +140,7 @@ def rule_based_chatbot():
 def api_call_exercise():
 	openai.api_key = return_api_key()
 	os.environ["OPENAI_API_KEY"] = return_api_key()
-	st.title("Api Call")
+	st.title("Api Call Exercise")
 	MODEL = "gpt-3.5-turbo"
 	with st.status("Calling the OpenAI API..."):
 		response = client.chat.completions.create(
@@ -169,6 +170,7 @@ def api_call_exercise():
 
 #challenge 3 is to create a function call_api to pass the prompt design and variables to call the OpenAI API 
 def call_api_challenge():
+	st.title("Api Call Challenge")
 	prompt_design = st.text_input("Enter your the prompt design for the API call:", value="You are a helpful assistant.")
 	prompt_query = st.text_input("Enter your prompt query:", value="Tell me about Singapore in the 1970s in 50 words.")
 	if st.button("Call the API"):
@@ -181,7 +183,7 @@ def call_api_challenge():
 def api_call(p_design, p_query):
 	openai.api_key = return_api_key()
 	os.environ["OPENAI_API_KEY"] = return_api_key()
-	st.title("Api Call")
+	
 	MODEL = "gpt-3.5-turbo"
 	with st.status("Calling the OpenAI API..."):
 		response = client.chat.completions.create(
@@ -309,7 +311,7 @@ def prompt_design():
 	prompt_design = st.text_input("Enter your the prompt design for the chatbot:", value="You are a helpful assistant.")
 	if prompt_design and name:
 		st.session_state.prompt_template = prompt_design + f" .You are talking to a person called {name}."
-		st.success("Prompt Design: " + prompt_design + " .You are talking to a person called " + name + ".")
+		st.success("Prompt Design: " + prompt_design + " . \n\n You are talking to a person called " + name + ".")
 
 #Challenge 6 - Set the prompt design for the chatbot for the AI Chatbot
 #Hint Replace You are a helpful assistant with the prompt design variable
@@ -357,20 +359,10 @@ def return_memory():
 def memory_variables():
 	if "memory_variables" not in st.session_state:
 		st.session_state.memory_variables = {}
-	st.session_state.memory_variables = ConversationBufferWindowMemory(k=3)
-	return st.session_state.memory_variables.load_memory_variables({})
+		st.session_state.memory_variables = ConversationBufferWindowMemory(k=3)
+	memory = st.session_state.memory_variables.load_memory_variables({})
+	return memory['history']
 
-# Challenge 7 - Set the prompt design for the chatbot
-def prompt_design_memory():
-
-	st.title("Prompt Design with Memory")
-	if "prompt_template" not in st.session_state:
-		st.session_state.prompt_template = "You are a helpful assistant."
-	name = st.text_input("Enter your name:", value="John Doe")
-	memory = memory_variables()
-	prompt_design = st.text_input("Enter your the prompt design for the chatbot:", value="You are a helpful assistant.")
-	if prompt_design and name:
-		st.success("Prompt Design" + prompt_design + " .You are talking to a person called " + name + "." + "previous conversation" + memory['history'])
 
 #Challenge 7 - Set the prompt design for the chatbot for the AI Chatbot
 #Hint Replace You are a helpful assistant with the prompt design variable
@@ -378,6 +370,10 @@ def basebot_prompt_design_memory():
 	# Initialize chat history
 	if "chat_msg" not in st.session_state:
 		st.session_state.chat_msg = []
+
+	#include memory variables
+	memory = memory_variables()
+	memory_context = "\n\n Previous conversation" + memory
 
 	# Showing Chat history
 	for message in st.session_state.chat_msg:
@@ -395,7 +391,7 @@ def basebot_prompt_design_memory():
 				message_placeholder = st.empty()
 				full_response = ""
 				# streaming function
-				for response in chat_completion_stream(st.session_state.prompt_template, prompt):
+				for response in chat_completion_stream(st.session_state.prompt_template + memory_context, prompt):
 					full_response += (response.choices[0].delta.content or "")
 					message_placeholder.markdown(full_response + "▌")
 				message_placeholder.markdown(full_response)
@@ -425,7 +421,7 @@ def rag_results(prompt):
 		docs = st.session_state.vs.similarity_search(prompt)
 		resource = docs[0].page_content
 		source = docs[0].metadata
-		results = "\nResource from knowledge base " + resource + "\n Source: " + source
+		results = "\n\nResource from knowledge base " + resource + "\n\n Source: " + source['source']
 		return results
 	else:
 		return "No results found"
@@ -442,6 +438,10 @@ def basebot_prompt_design_memory_rag():
 	for message in st.session_state.chat_msg:
 		with st.chat_message(message["role"]):
 			st.markdown(message["content"])
+	#include memory variables
+	memory = memory_variables()
+	memory_context = "\n\n Previous conversation" + memory
+
 	try:
 		#
 		if prompt := st.chat_input("What is up?"):
@@ -453,9 +453,10 @@ def basebot_prompt_design_memory_rag():
 			with st.chat_message("assistant"):
 				message_placeholder = st.empty()
 				full_response = ""
+				# Call rag_results and pass the prompt variable into the function
 				rag = rag_results(prompt)
 				# streaming function
-				for response in chat_completion_stream(st.session_state.prompt_template + rag, prompt):
+				for response in chat_completion_stream(st.session_state.prompt_template + memory_context, prompt):
 					full_response += (response.choices[0].delta.content or "")
 					message_placeholder.markdown(full_response + "▌")
 				message_placeholder.markdown(full_response)
@@ -619,3 +620,8 @@ def agent_bot():
 			st.session_state.steps[str(len(msgs.messages) - 1)] = response[
 				"intermediate_steps"
 			]
+
+def prototype_application():
+	#insert the code
+	st.write("Prototype Application")
+	pass

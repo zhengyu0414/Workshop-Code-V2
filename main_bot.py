@@ -121,8 +121,6 @@ def add_response(response):
 		st.session_state.data_doc = st.session_state.data_doc + "\n\n" + response
 	
 	return opt
-		
-
 
 #response rating component	
 def rating_component():

@@ -47,7 +47,7 @@ def dalle_image_generator(query):
 	image_url = response['data'][0]['url']
 	return image_url
 
-#Challenge 10:
+
 #customise more tools for your agent
 
 def agent_bot():
@@ -135,4 +135,5 @@ def agent_management():
 		# Map selected tool names to their respective functions
 		tools = [all_tools[name] for name in selected_tool_names]
 		st.session_state.tools = tools
+		st.write("Selected Tools:", st.session_state.tools)
 		

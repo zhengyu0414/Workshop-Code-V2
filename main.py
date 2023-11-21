@@ -295,7 +295,10 @@ def main():
 							sac.MenuItem("Database", icon='filetype-py'),
 							sac.MenuItem("OpenAI Basebot with Memory & RAG & recorded", icon='filetype-py'),
 						]),
-						sac.MenuItem(return_function_name('Agent Chatbot Ex','Agent Chatbot(Exercise)'), icon='filetype-py', disabled=is_function_disabled('Agent Chatbot Ex')),
+						sac.MenuItem(return_function_name('Agent Chatbot Ex','Agent Chatbot(Exercise)'), icon='filetype-py', disabled=is_function_disabled('Agent Chatbot Ex'), children=[
+							sac.MenuItem("Basic Langchain Agent Chatbot", icon='filetype-py'),
+							sac.MenuItem("OpenAI Assistant Chatbot", icon='filetype-py'),
+						]),
 						sac.MenuItem(return_function_name('Gen AI Prototype Ex', 'GenAi prototype Application(Exercise)'), icon='filetype-py', disabled=is_function_disabled('Gen AI Prototype Ex')),
 						
 					]),
@@ -408,6 +411,9 @@ def main():
 			st.divider()
 			text_to_speech()
 			pass
+		
+		#========================Modify the workshop code below this line========================#
+
 		elif st.session_state.option == 'Python Exercises':
 			# Code for python exercises
 			st.subheader(f":green[{st.session_state.option}]")
@@ -458,6 +464,7 @@ def main():
 			# Code for Streamlit App Exercise
 			# Call the streamlit app exercise function here
 			ex.streamlit_app()
+			
 			pass
 		elif st.session_state.option == 'Rule Based Chatbot (Exercise)':
 			# Code for Rule Based Chatbot Exercise
@@ -466,7 +473,8 @@ def main():
 			pass
 		elif st.session_state.option == 'Open AI API Call (Exercise)':
 			# call the API call exercise function here
-			ex.api_call_exercise()
+			if st.button("Call API"):
+				ex.api_call_exercise()
 			st.divider()
 			# Call the API challenge function here
 			ex.call_api_challenge()
@@ -515,15 +523,27 @@ def main():
 			ex.prompt_design()
 			ex.basebot_prompt_design_memory_rag_data()
 			pass
-		elif st.session_state.option == 'GenAi prototype Application(Exercise)':
-			#call the prototype application function here
-			ex.prototype_application()
-		
-		elif st.session_state.option == 'Agent Chatbot(Exercise)':
+
+		elif st.session_state.option == 'Basic Langchain Agent Chatbot':
+			#call the agent chatbot function here
+			on = st.toggle('Switch on to access the More Tools Agent')
+			if on:
+				ex.agent_bot_with_more_tools()
+			else:
+				ex.agent_bot()
+
+		elif st.session_state.option == 'OpenAI Assistant Chatbot':
 			#call the agent chatbot function here
 			init_session_state()
 			assistant_demo()
 			pass
+
+
+		elif st.session_state.option == 'GenAi prototype Application(Exercise)':
+			#call the prototype application function here
+			ex.prototype_application()
+		
+		#========================ZERO CODE workshop code below do not modify========================#
 
 		elif st.session_state.option == 'Rule Based Chatbot':
 			# Code for Rule Based Chatbot - Zerocode

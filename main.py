@@ -7,11 +7,12 @@ from files_module import display_files,docs_uploader, delete_files
 from kb_module import display_vectorstores, create_vectorstore, delete_vectorstores
 from authenticate import login_function,check_password
 from class_dash import download_data_table_csv
+from machine import upload_csv, plot_prices, prepare_data_and_train, plot_predictions, load_teachable_machines
 from agent import agent_bot, agent_management, wiki_search, YouTubeSearchTool, DuckDuckGoSearchRun
 from chatbot import call_api, api_call, rule_based
 from prototype_application import my_first_app, prototype_settings, my_first_app_advance
 from analytics_dashboard import pandas_ai
-from assistant import assistant_demo
+from assistant import assistant_demo, init_session_state
 #New schema move function fom settings
 from database_schema import create_dbs
 import exercises as ex
@@ -37,8 +38,13 @@ from org_module import (
 	process_user_profile,
 	remove_or_reassign_teacher_ui,
 	reassign_student_ui,
-	change_teacher_profile_ui
+	change_teacher_profile_ui,
+	add_user,
+	streamlit_delete_interface,
+	add_class,
+	add_level,
 )
+
 from pwd_module import reset_passwords, password_settings
 from users_module import (
 	link_users_to_app_function_ui,
@@ -259,7 +265,7 @@ def main():
 						#sac.MenuItem('Class Dashboard', icon='clipboard-data', disabled=is_function_disabled('Class Dashboard')),
 					]),
 
-					sac.MenuItem('Basics of AI', icon='robot', children=[
+					sac.MenuItem('Basic AI', icon='robot', children=[
 						sac.MenuItem(return_function_name('Machine Learning'), icon='clipboard-data', disabled=is_function_disabled('Machine Learning')),
 						sac.MenuItem(return_function_name('Deep Learning'), icon='clipboard-data', disabled=is_function_disabled('Deep Learning')),
 					]),
@@ -272,7 +278,9 @@ def main():
 
 
 					sac.MenuItem('Coding Exercises', icon='person-fill-gear', children=[
-						sac.MenuItem(return_function_name('Streamlit App Ex','Streamlit App (Exercise)'), icon='filetype-py', disabled=is_function_disabled('Streamlit App Ex')),
+						sac.MenuItem(return_function_name('Streamlit App Ex','Streamlit App (Exercise)'), icon='filetype-py', disabled=is_function_disabled('Streamlit App Ex'), children=[
+							sac.MenuItem("Python Exercises", icon='filetype-py'),
+							sac.MenuItem("First Streamlit App", icon='filetype-py'),]),
 						sac.MenuItem(return_function_name('Rule Based Chatbot Ex','Rule Based Chatbot (Exercise)'), icon='filetype-py', disabled=is_function_disabled('Rule Based Chatbot Ex')),
 						sac.MenuItem(return_function_name('Open AI API Call Ex','Open AI API Call (Exercise)'), icon='filetype-py', disabled=is_function_disabled('Open AI API Call Ex')),
 						sac.MenuItem(return_function_name('AI Chatbot Ex','AI Chatbot(Exercise)'), icon='filetype-py', disabled=is_function_disabled('AI Chatbot Ex'), children=[
@@ -364,11 +372,21 @@ def main():
 			vectorstore_selection_interface(st.session_state.user['id'])
 
 		elif st.session_state.option == 'Machine Learning':
-			# Code for Machine Learning
-			pass
+			
+			st.subheader(f":green[{st.session_state.option}]")
+			df = upload_csv()
+			if df is not None:
+				plot_prices(df)
+				if st.checkbox('Start Predictive Model'):
+					df_predict, tree, lr, column_name, future_days, X, Sucess =  prepare_data_and_train(df)
+					if Sucess:
+						plot_predictions(df_predict, tree, lr, column_name, future_days, X)
+					else:
+						st.warning("Please fill in all the fields in the machine learning form")
+		
 		elif st.session_state.option == 'Deep Learning':
-			# Code for Deep Learning
-			pass
+			st.subheader(f":green[{st.session_state.option}]")
+			load_teachable_machines()
 		elif st.session_state.option == 'AI Analytics':
 			# Code for AI Analytics
 			st.subheader(f":green[{st.session_state.option}]")
@@ -390,7 +408,53 @@ def main():
 			st.divider()
 			text_to_speech()
 			pass
-		elif st.session_state.option == 'Streamlit App (Exercise)':
+		elif st.session_state.option == 'Python Exercises':
+			# Code for python exercises
+			st.subheader(f":green[{st.session_state.option}]")
+			st.divider()
+			st.write("Hello world function")
+			ex.hello_world()
+			st.divider()
+			st.write("Input Exercise")
+			ex.input_exercise()
+			st.divider()
+			st.write("Button Exercise")
+			ex.button_exercise()
+			st.divider()
+			st.write("Using if else")
+			ex.using_if_else()
+			st.divider()
+			st.write("Challenge 1 - Create a button and input application")
+			ex.button_input_exercise()
+			st.divider()
+			st.write("Using Session State")
+			ex.using_session_state()
+			st.divider()
+			st.write("rule based question and answer")
+			ex.rule_based_question_answering()
+			st.divider()
+			st.write("Challenge 2 - rule based question and answer with session state")
+			ex.rule_based_question_answering_challenge()
+			st.divider()
+			st.write("Data Structure in python")
+			ex.simple_data_structure()
+			st.divider()
+			st.write("Displaying data structure")
+			ex.display_dictionary_in_dataframe()
+			st.divider()
+			st.write("For loop exercise")
+			ex.loop_exercise()
+			st.divider()
+			st.write("Streamlit form and widgets exercise")
+			ex.streamlit_form_exercise()
+			st.divider()
+			st.write("Challenge 3 - Form input into dictionary and show all the inputs")
+			ex.append_form_data_to_list()
+			st.divider()
+
+			# Call the python exercises function here
+			pass
+		elif st.session_state.option == 'First Streamlit App':
 			# Code for Streamlit App Exercise
 			# Call the streamlit app exercise function here
 			ex.streamlit_app()
@@ -457,6 +521,7 @@ def main():
 		
 		elif st.session_state.option == 'Agent Chatbot(Exercise)':
 			#call the agent chatbot function here
+			init_session_state()
 			assistant_demo()
 			pass
 
@@ -591,16 +656,20 @@ def main():
 
 		#Organisation Tools
 		elif st.session_state.option == "Users Management":
-			st.subheader(f":green[{st.session_state.option}]") 
-			sch_id, msg = process_user_profile(st.session_state.user["profile_id"])
-			rows = has_at_least_two_rows()
-			if rows >= 2:
-				#Password Reset
-				st.subheader("User accounts information")
-				df = display_accounts(sch_id)
-				st.warning("Password Management")
-				st.subheader("Reset passwords of users")
-				reset_passwords(df)
+			if st.session_state.user['profile_id'] == SA or st.session_state.user['profile_id'] == AD:	
+				st.subheader(f":green[{st.session_state.option}]") 
+				sch_id, msg = process_user_profile(st.session_state.user["profile_id"])
+				rows = has_at_least_two_rows()
+				if rows >= 2:
+					#Password Reset
+					st.subheader("User accounts information")
+					df = display_accounts(sch_id)
+					st.warning("Password Management")
+					st.subheader("Reset passwords of users")
+					reset_passwords(df)
+					add_user(sch_id)
+			else:
+				st.subheader(f":red[This option is accessible only to administrators only]")
 		
 		elif st.session_state.option == "Org Management":
 			if st.session_state.user['profile_id'] == SA:
@@ -625,7 +694,8 @@ def main():
 									sac.StepsItem(title='step 3', description='Change Teachers Profile'),
 									sac.StepsItem(title='step 4', description='Setting function access for profiles'),
 									sac.StepsItem(title='step 5', description='Reassign Students to Classes(Optional)'),
-									sac.StepsItem(title='step 6', description='Managing SQL Schema Tables',icon='radioactive'),
+									sac.StepsItem(title='step 6', description='Add/Delete Classes and Levels'),
+									sac.StepsItem(title='step 7', description='Managing SQL Schema Tables',icon='radioactive'),
 								], format_func='title', placement='vertical', size='small'
 							)
 					if steps_options == "step 1":
@@ -642,6 +712,12 @@ def main():
 					elif steps_options == "step 5":
 						reassign_student_ui(sch_id)
 					elif steps_options == "step 6":
+						add_level(sch_id)
+						st.divider()
+						add_class(sch_id)
+						st.divider()
+						streamlit_delete_interface()
+					elif steps_options == "step 7":
 						st.subheader(":red[Managing SQL Schema Tables]")
 						st.warning("Please do not use this function unless you know what you are doing")
 						if st.checkbox("I know how to manage SQL Tables"):

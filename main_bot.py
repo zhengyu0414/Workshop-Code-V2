@@ -235,19 +235,23 @@ def basebot_qa_memory(bot_name):
 					message_placeholder.markdown(full_response + "▌")
 				message_placeholder.markdown(full_response)
 				#Response Rating
-				if st.session_state.rating == True:
-					feedback_value = rating_component()
-				else:
-					feedback_value = 0
+				
 			st.session_state.msg.append({"role": "assistant", "content": full_response})
 			st.session_state["memory"].save_context({"input": prompt},{"output": full_response})
 			 # Insert data into the table
 			now = datetime.now() # Using ISO format for date
 			num_tokens = len(full_response + prompt)*1.3
+			#need to store num_tokens,full_response, prompt, bot_name, now and all in a dictionary
+			#if user press feedback it will look for the last entry in the database of the user and update the rating for this table
+			if st.session_state.rating == True:
+				feedback_value = rating_component()
+			else:
+				feedback_value = 0
 			#st.write(num_tokens)
-			insert_into_data_table(now.strftime("%d/%m/%Y %H:%M:%S"),  full_response, prompt, num_tokens, bot_name, feedback_value)
+			insert_into_data_table(now.strftime("%d/%m/%Y %H:%M:%S"),  full_response, prompt, num_tokens, bot_name)
 		if st.session_state.download_response_flag == True:
 			st.session_state.chat_response = add_response(full_response)
+		
 			
 			
 	except Exception as e:
@@ -328,22 +332,17 @@ def basebot_memory(bot_name):
 					full_response += (response.choices[0].delta.content or "")
 					message_placeholder.markdown(full_response + "▌")
 				message_placeholder.markdown(full_response)
-				if st.session_state.rating == True:
-					feedback_value = rating_component()
-				else:
-					feedback_value = 0
+		
 			st.session_state.msg.append({"role": "assistant", "content": full_response})
 			st.session_state["memory"].save_context({"input": prompt},{"output": full_response})
 			 # Insert data into the table
 			now = datetime.now() # Using ISO format for date
 			num_tokens = len(full_response + prompt)*1.3
-			#st.write(num_tokens)
-			insert_into_data_table(now.strftime("%d/%m/%Y %H:%M:%S"),  full_response, prompt, num_tokens, bot_name, feedback_value)
-			# if st.session_state.visuals == True:
-			# 	metacognitive_prompter(full_response)
-			# if st.session_state.visuals == True:
-			# 	metacognitive_prompter(full_response)
-			# #metacognitive_prompter(full_response)
+			if st.session_state.rating == True:
+				feedback_value = rating_component()
+			else:
+				feedback_value = 0
+			insert_into_data_table(now.strftime("%d/%m/%Y %H:%M:%S"),  full_response, prompt, num_tokens, bot_name)
 		if st.session_state.download_response_flag == True:
 			st.session_state.chat_response = add_response(full_response)
 
@@ -411,7 +410,7 @@ def basebot(bot_name):
 				now = datetime.now() # Using ISO format for date
 			num_tokens = len(full_response + prompt)*1.3
 			st.session_state.msg.append({"role": "assistant", "content": full_response})
-			insert_into_data_table(now.strftime("%d/%m/%Y %H:%M:%S"),  full_response, prompt, num_tokens, bot_name, feedback_value)
+			insert_into_data_table(now.strftime("%d/%m/%Y %H:%M:%S"),  full_response, prompt, num_tokens, bot_name)
 			# if st.session_state.visuals == True:
 			# 	metacognitive_prompter(full_response)
 		if st.session_state.download_response_flag == True:
@@ -501,7 +500,7 @@ def basebot_qa(bot_name):
 			now = datetime.now() # Using ISO format for date
 			num_tokens = len(full_response + prompt)*1.3
 			#st.write(num_tokens)
-			insert_into_data_table(now.strftime("%d/%m/%Y %H:%M:%S"),  full_response, prompt, num_tokens, bot_name, feedback_value)
+			insert_into_data_table(now.strftime("%d/%m/%Y %H:%M:%S"),  full_response, prompt, num_tokens, bot_name)
 			# if st.session_state.visuals == True:
 			# 	metacognitive_prompter(full_response)
 			#metacognitive_prompter(full_response)
@@ -547,7 +546,7 @@ def search_bot():
 			now = datetime.now() # Using ISO format for date
 			num_tokens = len(full_response + prompt)*1.3
 			#st.write(num_tokens)
-			insert_into_data_table(now.strftime("%d/%m/%Y %H:%M:%S"),  full_response, prompt, num_tokens, feedback_value)
+			insert_into_data_table(now.strftime("%d/%m/%Y %H:%M:%S"),  full_response, prompt, num_tokens)
 			# if st.session_state.visuals == True:
 			# 	metacognitive_prompter(full_response)
 		if st.session_state.download_response_flag == True:

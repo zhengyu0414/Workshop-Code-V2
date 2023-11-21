@@ -42,8 +42,177 @@ client = OpenAI(
     # defaults to os.environ.get("OPENAI_API_KEY")
     api_key=return_api_key(),
 )
+#python exercises
+def hello_world():
+	st.write("Hello World")
+	st.write("My name is ... ")
+
+#exrcise 1
+def input_exercise():
+	name = st.text_input("Enter your name:", key = 1)
+	st.write("Hello " + name)
+
+#exercise 2
+def button_exercise():
+	if st.button("Say Hello"):
+		st.write("Hello")
+	else:
+		st.write("Goodbye")
+
+#exercise 3
+def using_if_else():
+	if st.button("Print Hello"):
+		st.write("Hello")
+	elif st.button("Say Goodbye"):
+		st.write("Goodbye")
+	else:
+		st.write("Press a button")		
+
+#challenge 1 is to modify the code below to create a button that says "Say Goodbye"
+def button_input_exercise():
+	name = st.text_input("Enter your name:", key=2)
+	if st.button("Greetings"):
+		st.write("Hello " + name)
+	else:
+		st.write("Goodbye " + name)
+
+#exercise 3
+def using_session_state():
+	st.write("Normal Variable")
+	count = 0
+	if st.button("Increment Variable"):
+		count += 1
+		st.write("Variable Count = ", count)
+	st.write("Using Session State")
+	#initialize session state
+	if "count" not in st.session_state:
+		st.session_state.count = 0
+	#increment session state
+	if st.button("Increment Session State"):
+		st.session_state.count += 1
+	st.write("Session State Count = ", st.session_state.count)
+
+#exercise 4
+def rule_based_question_answering():
+	#create a rule based question answering system with the following questions and answers
+	question = st.text_input("Enter your question:")
+	if question == "What is your name?":
+		st.write("My name is EAI, an electronic artificial being.")
+	elif question == "How old are you?":
+		st.write("Today is my birthday!")
+	else:
+		st.write("I am sorry, I am unable to help you with your query.")
+
+#challenge 4 modify the code below to create a rule based question answering system using session state and show the previous query
+def rule_based_question_answering_challenge():
+	question = st.text_input("Enter your query:")
+	if "previous_query" not in st.session_state:
+		st.session_state.previous_query = ""
+	if question == "What is your name?":
+		st.write("My name is EAI, an electronic artificial being.")
+		st.session_state.previous_query = question
+	elif question == "How old are you?":
+		st.write("Today is my birthday!")
+		st.session_state.previous_query = question
+	elif question == "Show me the previous query":
+		st.write("Previous query is " + st.session_state.previous_query)
+	else:
+		st.write("I am sorry, I am unable to help you with your query.")
+		st.session_state.previous_query = question
+
+#exercise 5
+def simple_data_structure():
+	#this is a list
+	list = ["apple", "banana", "cherry"]
+	st.write(list)
+	#this is a dictionary
+	dict = {"name": "John", "age": 36}
+	st.write(dict)
+	#this is a list of dictionaries
+	dict1 = {"name": "John", "age": 36}
+	dict2 = {"name": "Mary", "age": 25}
+	dict3 = {"name": "Peter", "age": 42}
+	list_of_dict = [dict1, dict2, dict3]
+	st.write(list_of_dict)
+
+#exercise 6
+def display_dictionary_in_dataframe():
+	dict1 = {"name": "John", "age": 36}
+	dict2 = {"name": "Mary", "age": 25}
+	dict3 = {"name": "Peter", "age": 42}
+	list_of_dict = [dict1, dict2, dict3]
+	df = pd.DataFrame(list_of_dict)
+	st.write(df)
+
+#exercise 7
+def loop_exercise():
+	#loop through a list
+	list = ["apple", "banana", "cherry"]
+	for x in list:
+		st.write(x)
+	for x in range(3):
+		st.write(x)
+	#loop through a list of dictionaries
+	dict1 = {"name": "John", "age": 36}
+	dict2 = {"name": "Mary", "age": 25}
+	dict3 = {"name": "Peter", "age": 42}
+	list_of_dict = [dict1, dict2, dict3]
+	#for loop
+	for x in list_of_dict:
+		st.write(x)
+		st.write("name", x["name"])
+		st.write("age", x["age"])
+	
+#exercise 8
+def streamlit_form_exercise():
+	with st.form("new form"):
+		st.write("Inside the form")
+		name = st.text_input("Enter your name:")
+		age = st.number_input("Enter your age:", value=int(18))
+		gender = st.selectbox("Select Gender", ("Male", "Female"))
+		submit_button = st.form_submit_button("Submit")
+	if submit_button:
+		st.write("Outside the form")
+		st.write("Name:", name)
+		st.write("Age:", age)
+		st.write("Gender:", gender)
+		person = {
+			"Name": name,
+			"Age": age,
+			"Gender": gender
+		}
+		st.write(person)
+
+#challenge 9
+# Append the form data from a dictionary to a session state list and display the list of dictionaries
+def append_form_data_to_list():
+	if "list_of_dict" not in st.session_state:
+		st.session_state['list_of_dict'] = []
+		#st.session_state.list_of_dict = [] ( Same as above)
+
+	with st.form("my_form2"):
+		st.write("Inside the form")
+		name = st.text_input("Enter your name:")
+		age = st.number_input("Enter your age:", value=int(18))
+		gender = st.selectbox("Select Gender", ("Male", "Female"))
+		submit_button = st.form_submit_button("Submit")
+	if submit_button:
+		st.write("Name:", name)
+		st.write("Age:", age)
+		st.write("Gender:", gender)
+		person = {
+			"Name": name,
+			"Age": age,
+			"Gender": gender
+		}
+		st.session_state.list_of_dict.append(person)
+	
+	for x in st.session_state.list_of_dict:
+		st.write(x)
+
+
 # client = OpenAI()
-#exercise 1 - python recap and streamlit
+#Streamlit App challenge - python recap and streamlit
 def streamlit_app():
 	st.title("Streamlit App Exercise")
 	# Initialize session state

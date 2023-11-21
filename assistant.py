@@ -13,14 +13,6 @@ client = OpenAI(
     api_key=return_api_key(),
 )
 
-import json
-import time
-
-import streamlit as st
-import plotly.graph_objects as go
-
-from openai import OpenAI
-
 #######################################
 # PREREQUISITES
 #######################################
@@ -38,26 +30,26 @@ user_msg_input_key = "input_user_msg"
 #######################################
 # SESSION STATE SETUP
 #######################################
+def init_session_state():
+    if (assistant_state not in st.session_state) or (thread_state not in st.session_state):
+        st.session_state[assistant_state] = client.beta.assistants.retrieve(assistant_id)
+        st.session_state[thread_state] = client.beta.threads.create()
 
-if (assistant_state not in st.session_state) or (thread_state not in st.session_state):
-    st.session_state[assistant_state] = client.beta.assistants.retrieve(assistant_id)
-    st.session_state[thread_state] = client.beta.threads.create()
+    if conversation_state not in st.session_state:
+        st.session_state[conversation_state] = []
 
-if conversation_state not in st.session_state:
-    st.session_state[conversation_state] = []
+    if last_openai_run_state not in st.session_state:
+        st.session_state[last_openai_run_state] = None
 
-if last_openai_run_state not in st.session_state:
-    st.session_state[last_openai_run_state] = None
+    if map_state not in st.session_state:
+        st.session_state[map_state] = {
+            "latitude": 39.949610,
+            "longitude": -75.150282,
+            "zoom": 16,
+        }
 
-if map_state not in st.session_state:
-    st.session_state[map_state] = {
-        "latitude": 39.949610,
-        "longitude": -75.150282,
-        "zoom": 16,
-    }
-
-if markers_state not in st.session_state:
-    st.session_state[markers_state] = None
+    if markers_state not in st.session_state:
+        st.session_state[markers_state] = None
 
 #######################################
 # TOOLS SETUP

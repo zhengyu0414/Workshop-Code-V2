@@ -11,6 +11,7 @@ from agent import agent_bot, agent_management, wiki_search, YouTubeSearchTool, D
 from chatbot import call_api, api_call, rule_based
 from prototype_application import my_first_app, prototype_settings, my_first_app_advance
 from analytics_dashboard import pandas_ai
+from assistant import assistant_demo
 #New schema move function fom settings
 from database_schema import create_dbs
 import exercises as ex
@@ -456,6 +457,7 @@ def main():
 		
 		elif st.session_state.option == 'Agent Chatbot(Exercise)':
 			#call the agent chatbot function here
+			assistant_demo()
 			pass
 
 		elif st.session_state.option == 'Rule Based Chatbot':

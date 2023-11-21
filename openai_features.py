@@ -2,13 +2,15 @@ import streamlit as st
 from authenticate import return_api_key
 from st_audiorec import st_audiorec
 import os
-import streamlit as st
 import openai
 import requests
 import base64
 import tempfile
 import io
 from openai import OpenAI
+import json
+import time
+import plotly.graph_objects as go
 
 cwd = os.getcwd()
 AUDIO_DIRECTORY = os.path.join(cwd, "audio_files")
@@ -213,3 +215,8 @@ def text_to_speech():
         os.remove(st.session_state.audio_file_path)
         st.session_state.audio_file_path = None
         st.experimental_rerun()
+
+
+
+
+

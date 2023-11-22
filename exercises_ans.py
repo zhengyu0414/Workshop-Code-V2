@@ -849,7 +849,7 @@ def agent_bot_with_more_tools():
 			model_name=st.secrets["default_model"], openai_api_key=return_api_key(), streaming=True
 		)
 		#Modify the code below to add more tools to the smart agent
-		tools = tools = [wiki_search, document_search, DuckDuckGoSearchRun(name="Internet Search")]
+		tools = [wiki_search, document_search, DuckDuckGoSearchRun(name="Internet Search")]
 		
 		chat_agent = ConversationalChatAgent.from_llm_and_tools(llm=llm, tools=tools)
 		executor = AgentExecutor.from_agent_and_tools(

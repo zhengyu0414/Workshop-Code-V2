@@ -6,7 +6,10 @@ import os
 import zipfile
 import boto3
 
-S3_BUCKET = st.secrets["s3_bucket"]
+if "S3_BUCKET" in st.secrets:
+    S3_BUCKET = st.secrets["S3_BUCKET"]
+else:
+    S3_BUCKET = "Default"
 
 # Create or check for the 'database' directory in the current working directory
 cwd = os.getcwd()

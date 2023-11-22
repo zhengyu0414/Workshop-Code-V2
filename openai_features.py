@@ -34,15 +34,20 @@ def encode_image(image_path):
 def get_file_extension(file_name):
     return os.path.splitext(file_name)[-1]
 
+
+
 def analyse_image():
     st.subheader("Analyse an image")
     api_key = return_api_key()
     # Streamlit: File Uploader
     uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
+    img_file_buffer = st.camera_input("Take a picture")
     prompt = st.text_input("Enter a prompt", value="This is a photo of a")
     if st.button("Analyse"):
-        if uploaded_file is not None:
+        if uploaded_file is not None or img_file_buffer is not None:
             # Save the file to a temporary file
+            if img_file_buffer is not None:
+                uploaded_file = img_file_buffer
             extension = get_file_extension(uploaded_file.name)
             with tempfile.NamedTemporaryFile(delete=False, suffix=extension) as temp_file:
                 temp_file.write(uploaded_file.getvalue())

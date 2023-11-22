@@ -404,6 +404,8 @@ def create_vectorstore():
             # st.write(st.session_state.test1)
             #st.write(st.session_state.test2)
             #st.write(type(db))
+            #st.session_state.vs = load_vectorstore(documents, table_name)
+            create_lancedb_table(embeddings, meta, vs_name)
             save_to_vectorstores(docs_json, vs_name, subject, topic, st.session_state.user["username"], share_resource)  # Passing the share_resource to the function
             st.success("Knowledge Base loaded")
 

@@ -1,4 +1,5 @@
 #No need SQLite
+import nltk
 import streamlit as st
 from streamlit_antd_components import menu, MenuItem
 import streamlit_antd_components as sac
@@ -62,6 +63,16 @@ from openai_features import generate_image, record_myself, upload_audio, analyse
 from PIL import Image
 import configparser
 import ast
+
+def download_nltk_data_if_absent(package_name):
+    try:
+        # Try loading the package to see if it exists
+        nltk.data.find('tokenizers/' + package_name)
+    except LookupError:
+        # If the package doesn't exist, download it
+        nltk.download(package_name)
+
+download_nltk_data_if_absent('punkt')
 
 
 class ConfigHandler:

@@ -595,12 +595,13 @@ def basebot_prompt_design_memory():
 #Exercise 7 - Showing the capabilties of RAG
 def show_rag_results():
 	prompt = st.text_input("Enter your search query:")
-	if st.session_state.vs:
-		docs = st.session_state.vs.similarity_search(prompt)
-		resource = docs[0].page_content
-		source = docs[0].metadata
-		st.write("Resource", resource)
-		st.write("Source", source)
+	if st.button("Search"):
+		if st.session_state.vs:
+			docs = st.session_state.vs.similarity_search(prompt)
+			resource = docs[0].page_content
+			source = docs[0].metadata
+			st.write("Resource", resource)
+			st.write("Source", source)
 
 #Challenge 7 - Integrate RAG into the chatbot, add the RAG search results function to the chatbot where the prompt is the user input
 

@@ -189,7 +189,7 @@ def chat_completion_prototype(prompt):
 	openai.api_key = return_api_key()
 	os.environ["OPENAI_API_KEY"] = return_api_key()
 	prompt_template = prompt_template_prototype(prompt)
-	response = openai.ChatCompletion.create(
+	response = client.chat.completions.create(
 		model=st.session_state.openai_model,
 		messages=[
 			{"role": "system", "content":prompt_template },
@@ -234,7 +234,7 @@ def prototype_advance_bot(bot_name):
 				message_placeholder = st.empty()
 				full_response = ""
 				for response in chat_completion_prototype(prompt):
-					full_response += response.choices[0].delta.get("content", "")
+					full_response += (response.choices[0].delta.content or "")
 					message_placeholder.markdown(full_response + "▌")
 				message_placeholder.markdown(full_response)
 				#Response Rating

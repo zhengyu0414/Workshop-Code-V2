@@ -11,7 +11,10 @@ from datetime import datetime
 from langchain.memory import ConversationSummaryBufferMemory
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.chat_models import ChatOpenAI
-
+client = OpenAI(
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=return_api_key(),
+)
 # if "form_title" not in st.session_state:
 # 	st.session_state.form_title = "Message Generator"
 # if "question_1" not in st.session_state:
@@ -249,7 +252,7 @@ def prototype_advance_bot(bot_name):
 def template_prompt(prompt, prompt_template):
 	openai.api_key = return_api_key()
 	os.environ["OPENAI_API_KEY"] = return_api_key()
-	response = openai.ChatCompletion.create(
+	response = client.chat.completions.create(
 		model=st.session_state.openai_model,
 		messages=[
 			{"role": "system", "content":prompt_template},
@@ -282,7 +285,7 @@ def basic_bot(prompt, bot_name):
 			
 			full_response = ""
 			for response in template_prompt(prompt, st.session_state.my_form_template):
-				full_response += response.choices[0].delta.get("content", "")
+				full_response += (response.choices[0].delta.content or "")
 				message_placeholder.markdown(full_response + "▌")
 	
 			message_placeholder.markdown(full_response)

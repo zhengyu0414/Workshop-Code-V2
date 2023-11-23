@@ -49,11 +49,11 @@ def form_input():
 		
 	with st.form("my_form"):
 		st.subheader(st.session_state.form_title)
-		q1 = st.text_input("Question 1:", value=st.session_state.question_1, key="q_1")
-		q2 = st.text_input("Question 2:", value=st.session_state.question_2, key="q_2")
-		q3 = st.text_input("Question 3:", value=st.session_state.question_3, key="q_3")
-		q4 = st.text_input("Question 4:", value=st.session_state.question_4, key="q_4")
-		q5 = st.text_input("Question 5:", value=st.session_state.question_5, key="q_5")
+		q1 = st.text_input(f"Question 1:, {st.session_state.question_1}",key="q_1")
+		q2 = st.text_input(f"Question 2:, {st.session_state.question_2}",key="q_2")
+		q3 = st.text_input(f"Question 3:, {st.session_state.question_3}",key="q_3")
+		q4 = st.text_input(f"Question 4:, {st.session_state.question_4}",key="q_4")
+		q5 = st.text_input(f"Question 5:, {st.session_state.question_5}",key="q_5")
 
 		# Every form must have a submit button.
 		submitted = st.form_submit_button("Submit")

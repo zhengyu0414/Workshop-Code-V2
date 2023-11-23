@@ -5,6 +5,7 @@ from users_module import vectorstore_selection_interface
 from datetime import datetime
 from main_bot import insert_into_data_table
 import openai
+from openai import OpenAI
 import os
 from authenticate import return_api_key
 from datetime import datetime

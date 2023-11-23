@@ -38,10 +38,14 @@ def api_call(p_design, p_query):
 		st.markdown("**This is the raw response:**") 
 		st.write(response)
 		st.markdown("**This is the extracted response:**")
-		st.write(response["choices"][0]["message"]["content"].strip())
-		s = str(response["usage"]["total_tokens"])
-		st.markdown("**Total tokens used:**")
-		st.write(s)
+		st.write(response.choices[0].message.content)
+		completion_tokens = response.usage.completion_tokens
+		prompt_tokens = response.usage.prompt_tokens
+		total_tokens = response.usage.total_tokens
+
+		st.write(f"Completion Tokens: {completion_tokens}")
+		st.write(f"Prompt Tokens: {prompt_tokens}")
+		st.write(f"Total Tokens: {total_tokens}")
 
 def rule_based():
 	st.write("Rules for the chatbot:")

@@ -83,10 +83,8 @@ def pandas_ai(user_id, sch_id, profile):
 		if submitted:
 			# Check if the file exists and remove it
 			chart_path = os.path.join("exports/charts", "temp_chart.png")
-			if os.path.exists(chart_path):
-				os.remove(chart_path)
 			with st.spinner():
-				llm =OpenAI(api_token=st.session_state.api_key)
+				llm =OpenAI(api_token=return_api_key())
 				df = SmartDataframe(
 					st.session_state.df,
 					config={

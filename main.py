@@ -14,6 +14,7 @@ from chatbot import call_api, api_call, rule_based
 from prototype_application import my_first_app, prototype_settings, my_first_app_advance
 from analytics_dashboard import pandas_ai
 from assistant import assistant_demo, init_session_state
+from k_map import map_creation_form
 #New schema move function fom settings
 from database_schema import create_dbs
 import exercises as ex
@@ -307,6 +308,7 @@ def main():
 							sac.MenuItem("OpenAI Basebot with Memory & RAG & recorded", icon='filetype-py'),
 						]),
 						sac.MenuItem(return_function_name('Agent Chatbot Ex','Agent Chatbot(Exercise)'), icon='filetype-py', disabled=is_function_disabled('Agent Chatbot Ex'), children=[
+							sac.MenuItem("Knowledge Map Generator", icon='filetype-py'),
 							sac.MenuItem("Basic Langchain Agent Chatbot", icon='filetype-py'),
 							sac.MenuItem("OpenAI Assistant Chatbot", icon='filetype-py'),
 						]),
@@ -384,6 +386,9 @@ def main():
 				download_data_table_csv(st.session_state.user["id"], st.session_state.user["school_id"], st.session_state.user["profile_id"])
 			display_vectorstores()
 			vectorstore_selection_interface(st.session_state.user['id'])
+		elif st.session_state.option == 'Knowledge Map Generator':
+			st.subheader(f":green[{st.session_state.option}]")
+			
 
 		elif st.session_state.option == 'Machine Learning':
 			
@@ -545,8 +550,13 @@ def main():
 
 		elif st.session_state.option == 'OpenAI Assistant Chatbot':
 			#call the agent chatbot function here
-			init_session_state()
-			assistant_demo()
+			#ASSISTANT_ID = "asst_SN0BhLgX1qI3ztb3JOJ6t52P"
+			#MAPBOX_TOKEN = "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"
+			if "ASSISTANT_ID" in st.secrets or "MAPBOX_TOKEN" in st.secrets:
+				init_session_state()
+				assistant_demo()
+			else:
+				st.warning("Please enter your Assistant ID and Mapbox Token to enable this feature")
 			pass
 
 

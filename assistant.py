@@ -16,8 +16,8 @@ client = OpenAI(
 #######################################
 # PREREQUISITES
 #######################################
-
-assistant_id = st.secrets["ASSISTANT_ID"]
+if "ASSISTANT_ID" in st.secrets:
+    assistant_id = st.secrets["ASSISTANT_ID"]
 assistant_state = "assistant"
 thread_state = "thread"
 conversation_state = "conversation"

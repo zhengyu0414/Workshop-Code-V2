@@ -24,7 +24,6 @@ conversation_state = "conversation"
 last_openai_run_state = "last_openai_run"
 map_state = "map"
 markers_state = "markers"
-
 user_msg_input_key = "input_user_msg"
 
 #######################################

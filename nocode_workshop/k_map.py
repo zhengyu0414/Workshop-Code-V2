@@ -1,7 +1,7 @@
 import streamlit as st
 from openai import OpenAI
 from plantuml import PlantUML
-from authenticate import return_api_key
+from basecode.authenticate import return_api_key
 from streamlit.components.v1 import html
 import os
 import re

@@ -1,9 +1,9 @@
 import streamlit as st
 import openai
-from authenticate import return_api_key
+from basecode.authenticate import return_api_key
 from langchain.tools import YouTubeSearchTool
-from kb_module import display_vectorstores
-from users_module import vectorstore_selection_interface
+from basecode.kb_module import display_vectorstores
+from basecode.users_module import vectorstore_selection_interface
 import os
 
 from langchain.agents import ConversationalChatAgent, AgentExecutor

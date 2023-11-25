@@ -8,7 +8,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.document_loaders import UnstructuredFileLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import LanceDB
-from authenticate import return_api_key
+from basecode.authenticate import return_api_key
 from langchain.docstore.document import Document
 import lancedb  
 import configparser

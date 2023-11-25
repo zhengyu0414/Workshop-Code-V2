@@ -2,13 +2,13 @@ import streamlit as st
 import openai
 from openai import OpenAI
 import sqlite3
-from authenticate import return_api_key
+from basecode.authenticate import return_api_key
 from datetime import datetime
 from langchain.memory import ConversationSummaryBufferMemory
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.chat_models import ChatOpenAI
 import streamlit_antd_components as sac
-from k_map import (
+from nocode_workshop.k_map import (
 	map_prompter_with_plantuml,
 	generate_plantuml_mindmap,
 	render_diagram

@@ -1,7 +1,7 @@
 import openai
 from openai import OpenAI
 import streamlit as st
-from authenticate import return_api_key
+from basecode.authenticate import return_api_key
 import os
 import pandas as pd
 

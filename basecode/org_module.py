@@ -1,6 +1,6 @@
 import sqlite3
-from authenticate import hash_password
-from database_module import populate_functions
+from basecode.authenticate import hash_password
+from basecode.database_module import populate_functions
 import streamlit as st
 import time
 import pandas as pd

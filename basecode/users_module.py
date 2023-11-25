@@ -3,7 +3,7 @@ import streamlit as st
 import configparser
 import os
 import ast
-from kb_module import load_vectorstore
+from basecode.kb_module import load_vectorstore
 
 class ConfigHandler:
 	def __init__(self):

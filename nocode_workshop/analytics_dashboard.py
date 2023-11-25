@@ -1,7 +1,7 @@
 import streamlit as st
 from langchain.chat_models import ChatOpenAI
 import pandas as pd
-from authenticate import return_api_key
+from basecode.authenticate import return_api_key
 import openai
 from pandasai import SmartDataframe
 from pandasai.llm.openai import OpenAI
@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import configparser
 import ast
 import os
-from class_dash import fetch_data_by_username, fetch_data_by_school, fetch_data_by_sa
+from basecode.class_dash import fetch_data_by_username, fetch_data_by_school, fetch_data_by_sa
 
 # Create or check for the 'database' directory in the current working directory
 cwd = os.getcwd()

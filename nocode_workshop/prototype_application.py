@@ -1,13 +1,13 @@
 import streamlit as st
-from main_bot import basebot
-from kb_module import display_vectorstores
-from users_module import vectorstore_selection_interface
+from basecode.main_bot import basebot
+from basecode.kb_module import display_vectorstores
+from basecode.users_module import vectorstore_selection_interface
 from datetime import datetime
-from main_bot import insert_into_data_table
+from basecode.main_bot import insert_into_data_table
 import openai
 from openai import OpenAI
 import os
-from authenticate import return_api_key
+from basecode.authenticate import return_api_key
 from datetime import datetime
 from langchain.memory import ConversationSummaryBufferMemory
 from langchain.memory import ConversationBufferWindowMemory

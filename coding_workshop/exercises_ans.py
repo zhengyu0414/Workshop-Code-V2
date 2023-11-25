@@ -1,6 +1,6 @@
 import streamlit as st
 from openai import OpenAI
-from authenticate import return_api_key
+from basecode.authenticate import return_api_key
 import sqlite3
 import os
 import pandas as pd
@@ -8,10 +8,10 @@ from langchain.memory import ConversationBufferWindowMemory
 from datetime import datetime
 import streamlit as st
 import openai
-from authenticate import return_api_key
+from basecode.authenticate import return_api_key
 from langchain.tools import YouTubeSearchTool
-from kb_module import display_vectorstores
-from users_module import vectorstore_selection_interface
+from basecode.kb_module import display_vectorstores
+from basecode.users_module import vectorstore_selection_interface
 from langchain.agents import ConversationalChatAgent, AgentExecutor
 from langchain.callbacks import StreamlitCallbackHandler
 from langchain.chat_models import ChatOpenAI
@@ -40,24 +40,24 @@ client = OpenAI(
     # defaults to os.environ.get("OPENAI_API_KEY")
     api_key=return_api_key(),
 )
-#python exercises
+#exercise 0 - hello world python 
 def hello_world():
 	st.write("Hello World")
 	st.write("My name is ... ")
 
-#exrcise 1
+#exercise 1 - input 
 def input_exercise():
 	name = st.text_input("Enter your name:", key = 1)
 	st.write("Hello " + name)
 
-#exercise 2
+#exercise 2 - button
 def button_exercise():
 	if st.button("Say Hello"):
 		st.write("Hello")
 	else:
 		st.write("Goodbye")
 
-#exercise 3
+#exercise 3 - if else
 def using_if_else():
 	if st.button("Print Hello"):
 		st.write("Hello")
@@ -74,7 +74,7 @@ def button_input_exercise():
 	else:
 		st.write("Goodbye " + name)
 
-#exercise 3
+#exercise 4 - session state
 def using_session_state():
 	st.write("Normal Variable")
 	count = 0
@@ -90,7 +90,7 @@ def using_session_state():
 		st.session_state.count += 1
 	st.write("Session State Count = ", st.session_state.count)
 
-#exercise 4
+#exercise 5 - rule based question answering
 def rule_based_question_answering():
 	#create a rule based question answering system with the following questions and answers
 	question = st.text_input("Enter your question:")
@@ -101,7 +101,7 @@ def rule_based_question_answering():
 	else:
 		st.write("I am sorry, I am unable to help you with your query.")
 
-#challenge 4 modify the code below to create a rule based question answering system using session state and show the previous query
+#challenge 2 modify the code below to create a rule based question answering system using session state and show the previous query
 def rule_based_question_answering_challenge():
 	question = st.text_input("Enter your query:")
 	if "previous_query" not in st.session_state:
@@ -118,7 +118,7 @@ def rule_based_question_answering_challenge():
 		st.write("I am sorry, I am unable to help you with your query.")
 		st.session_state.previous_query = question
 
-#exercise 5
+#exercise 6 - simple data structure
 def simple_data_structure():
 	#this is a list
 	list = ["apple", "banana", "cherry"]
@@ -133,7 +133,7 @@ def simple_data_structure():
 	list_of_dict = [dict1, dict2, dict3]
 	st.write(list_of_dict)
 
-#exercise 6
+#exercise 7 - display dictionary in dataframe
 def display_dictionary_in_dataframe():
 	dict1 = {"name": "John", "age": 36}
 	dict2 = {"name": "Mary", "age": 25}
@@ -142,7 +142,7 @@ def display_dictionary_in_dataframe():
 	df = pd.DataFrame(list_of_dict)
 	st.write(df)
 
-#exercise 7
+#exercise 8 - for loop
 def loop_exercise():
 	#loop through a list
 	list = ["apple", "banana", "cherry"]
@@ -161,7 +161,7 @@ def loop_exercise():
 		st.write("name", x["name"])
 		st.write("age", x["age"])
 	
-#exercise 8
+#exercise 9 - streamlit form exercise
 def streamlit_form_exercise():
 	with st.form("new form"):
 		st.write("Inside the form")
@@ -181,7 +181,7 @@ def streamlit_form_exercise():
 		}
 		st.write(person)
 
-#challenge 9
+#challenge 3
 # Append the form data from a dictionary to a session state list and display the list of dictionaries
 def append_form_data_to_list():
 	if "list_of_dict" not in st.session_state:
@@ -204,14 +204,15 @@ def append_form_data_to_list():
 			"Gender": gender
 		}
 		st.session_state.list_of_dict.append(person)
-	
+	#display the list of dictionaries using a for loop
 	for x in st.session_state.list_of_dict:
 		st.write(x)
 
+#--------Streamlit app challenge - python recap and streamlit ---------------------------------------------------------------------------------------#	
 
-# client = OpenAI()
+
 #Streamlit App challenge - python recap and streamlit
-def streamlit_app():
+def streamlit_app_example():
 	st.title("Streamlit App Exercise")
 	# Initialize session state
 	if 'participants' not in st.session_state:
@@ -246,7 +247,7 @@ def streamlit_app():
 
 	# Process form submission
 	if submit_button:
-		if len(st.session_state['participants']) < 5:
+		if len(st.session_state['participants']) < 10:
 			add_participant()
 			st.success("Registration Successful!")
 		else:
@@ -257,6 +258,9 @@ def streamlit_app():
 		df = pd.DataFrame(st.session_state['participants'])
 		st.write(df)
 
+
+
+#---------------------------------building chatbots ---------------------------------------------------------------------------------------#
 
 
 #Challenge 1 is to modify the code below to create a rule based bot and creating a dictionary data to store the prompts and replies

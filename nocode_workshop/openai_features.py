@@ -1,5 +1,5 @@
 import streamlit as st
-from authenticate import return_api_key
+from basecode.authenticate import return_api_key
 from st_audiorec import st_audiorec
 import os
 import openai

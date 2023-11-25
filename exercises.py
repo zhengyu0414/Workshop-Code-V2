@@ -616,8 +616,8 @@ def rag_results(prompt):
 		return "No results found"
 
 
-#Challenge 7 - Set the prompt design for the chatbot for the AI Chatbot
-#Hint Replace You are a helpful assistant with the prompt design variable
+#Challenge 7 - Integrate RAG into the chatbot, add the RAG search results function to the chatbot where the prompt is the user input
+#Hint add the RAG search results function with the memory variable
 def basebot_prompt_design_memory_rag():
 	# Initialize chat history
 	if "chat_msg" not in st.session_state:
@@ -723,7 +723,7 @@ def initialise():
 
 
 #Challenge 9 - Collect your data from your chatbot
-#Hint Replace You are a helpful assistant with the prompt design variable
+#How to capture and save the data from the chatbot into the database
 def basebot_prompt_design_memory_rag_data():
 	# Initialize chat history
 	if "chat_msg" not in st.session_state:
@@ -733,6 +733,11 @@ def basebot_prompt_design_memory_rag_data():
 	for message in st.session_state.chat_msg:
 		with st.chat_message(message["role"]):
 			st.markdown(message["content"])
+	
+	#include memory variables
+	memory = memory_variables()
+	memory_context = "\n\n Previous conversation" + memory
+
 	try:
 		#
 		if prompt := st.chat_input("What is up?"):
@@ -746,7 +751,7 @@ def basebot_prompt_design_memory_rag_data():
 				full_response = ""
 				rag = rag_results(prompt)
 				# streaming function
-				for response in chat_completion_stream(st.session_state.prompt_template + rag, prompt):
+				for response in chat_completion_stream(st.session_state.prompt_template + memory_context + rag, prompt):
 					full_response += (response.choices[0].delta.content or "")
 					message_placeholder.markdown(full_response + "▌")
 				message_placeholder.markdown(full_response)

@@ -10,5 +10,5 @@ __pycache__/
 *.log
 *.pyc
 *.db
-moe_lcc/
+moe/
 cache/

@@ -222,7 +222,7 @@ def append_form_data_to_list():
 #create your first streamlit app
 def streamlit_app():
 	st.write("My first Streamlit App")
-	st.write("This is a Gen AI Workshop registration app for up to 10 participants")
+	st.write("This is a Gen AI Workshop registration app for up to 5 participants")
 	#create a form from the streamlit documentation
 	#after the form is submitted, set it into a dictionary
 	#set the list_of_dict session state to a list
@@ -796,9 +796,13 @@ def document_search(query: str) -> str:
 @tool("Wiki search")
 def wiki_search(query: str) -> str:
 	"Use this function to search for documents in Wikipedia"
-	wikipedia = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
-	results = wikipedia.run(query)
-	return results
+
+	try:
+		wikipedia = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
+		results = wikipedia.run(query)
+		return str(results)
+	except Exception as e:
+		return f"Error occured, {str(e)}"
 
 def agent_bot_with_more_tools():
 	st.title("Smart Agent with Tools - 2 or more Tools")

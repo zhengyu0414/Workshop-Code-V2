@@ -247,7 +247,7 @@ def streamlit_app_example():
 
 	# Process form submission
 	if submit_button:
-		if len(st.session_state['participants']) < 10:
+		if len(st.session_state['participants']) < 5:
 			add_participant()
 			st.success("Registration Successful!")
 		else:
@@ -818,9 +818,13 @@ def document_search(query: str) -> str:
 @tool("Wiki search")
 def wiki_search(query: str) -> str:
 	"Use this function to search for documents in Wikipedia"
-	wikipedia = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
-	results = wikipedia.run(query)
-	return results
+
+	try:
+		wikipedia = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
+		results = wikipedia.run(query)
+		return str(results)
+	except Exception as e:
+		return f"Error occured, {str(e)}"
 
 def agent_bot_with_more_tools():
 	st.title("Smart Agent with Tools - 2 or more Tools")

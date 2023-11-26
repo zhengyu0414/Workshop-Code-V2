@@ -18,6 +18,7 @@ from nocode_workshop.k_map import map_creation_form
 #New schema move function fom settings
 from basecode.database_schema import create_dbs
 from coding_workshop import exercises as ex
+from coding_workshop import project_templates as tpl
 
 from basecode.database_module import (
 	manage_tables, 
@@ -559,7 +560,30 @@ def main():
 
 		elif st.session_state.option == 'GenAi prototype Application(Exercise)':
 			#call the prototype application function here
-			ex.prototype_application()
+			options = sac.buttons(
+							items=[
+								sac.ButtonsItem(label='Prototype Application', icon='app',),
+								sac.ButtonsItem(label='Template 1 - Form', icon='app'),
+								sac.ButtonsItem(label='Template 2 - Chatbot', icon='chat'),
+								sac.ButtonsItem(label='Template 3 - Assistant', icon='chat-left'),
+							], index=0, format_func='title', align='center')
+			if options == 'Prototype Application':
+				ex.prototype_application()
+			elif options == 'Template 1 - Form':
+				tpl.template1_form_with_genai_call()
+			elif options == 'Template 2 - Chatbot':
+				tpl.template2_ragbot()
+			elif options == 'Template 3 - Assistant':
+				tpl.template3_openai_assistant()
+			# ex.prototype_application()
+			# st.divider()
+			# tpl.template1_form_with_genai_call()
+			# st.divider()
+			# tpl.template2_ragbot()
+			# st.divider()
+			# tpl.template3_agent()
+			# st.divider()
+			# tpl.template4_openai_assistant()
 		
 		#========================ZERO CODE workshop code below do not modify========================#
 

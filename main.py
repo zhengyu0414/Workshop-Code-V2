@@ -574,7 +574,10 @@ def main():
 			elif options == 'Template 2 - Chatbot':
 				tpl.template2_ragbot()
 			elif options == 'Template 3 - Assistant':
-				tpl.template3_openai_assistant()
+				if "OPENAI_ASSISTANT" in st.secrets:
+					tpl.template3_openai_assistant()
+				else:
+					st.warning("Please enter or create your OpenAI Assistant API key to enable this feature")
 			# ex.prototype_application()
 			# st.divider()
 			# tpl.template1_form_with_genai_call()

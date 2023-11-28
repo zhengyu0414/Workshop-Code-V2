@@ -69,7 +69,7 @@ def using_if_else():
 	else:
 		st.write("Press a button")		
 
-#challenge 1 is to modify the code below to create a button that says "Say Goodbye"
+#challenge 1 is to modify the code below when click "Greetings" button it says "Hello (your name)"
 def button_input_exercise():
 	name = st.text_input("Enter your name:", key=2)
 	#add buton here
@@ -236,7 +236,7 @@ def streamlit_app():
 
 #---------------------------------building chatbots ---------------------------------------------------------------------------------------#
 
-#Challenge 1 is to modify the code below to create a rule based bot and creating a dictionary data to store the prompts and replies
+#Exercise 1 
 def get_reply(prompt):
 	# Dictionary of prompts and replies
 	replies = {
@@ -248,7 +248,7 @@ def get_reply(prompt):
 	# Return the reply for the given prompt, or a default response
 	return replies.get(prompt, "I am sorry, I am unable to help you with your query.")
 
-#Exercise and challenge 1
+#challenge 1 is to modify the code below to create a rule based bot and creating a dictionary data to store the prompts and replies
 def rule_based_chatbot():
 
 	st.title("Echo Bot to Rule Based Bot")

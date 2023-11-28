@@ -292,24 +292,24 @@ def main():
 
 					sac.MenuItem('Coding Exercises', icon='person-fill-gear', children=[
 						sac.MenuItem(return_function_name('Streamlit App Ex','Streamlit App (Exercise)'), icon='filetype-py', disabled=is_function_disabled('Streamlit App Ex'), children=[
-							sac.MenuItem("Python Exercises", icon='filetype-py'),
+							sac.MenuItem("Python (Ex 0-9 & Ch 1-3)", icon='filetype-py'),
 							sac.MenuItem("First Streamlit App", icon='filetype-py'),]),
-						sac.MenuItem(return_function_name('Rule Based Chatbot Ex','Rule Based Chatbot (Exercise)'), icon='filetype-py', disabled=is_function_disabled('Rule Based Chatbot Ex')),
-						sac.MenuItem(return_function_name('Open AI API Call Ex','Open AI API Call (Exercise)'), icon='filetype-py', disabled=is_function_disabled('Open AI API Call Ex')),
+						sac.MenuItem(return_function_name('Rule Based Chatbot Ex','Rule Based Chatbot (Ex & Ch 1)'), icon='filetype-py', disabled=is_function_disabled('Rule Based Chatbot Ex')),
+						sac.MenuItem(return_function_name('Open AI API Call Ex','Open AI API Call (Ex & Ch 2)'), icon='filetype-py', disabled=is_function_disabled('Open AI API Call Ex')),
 						sac.MenuItem(return_function_name('AI Chatbot Ex','AI Chatbot(Exercise)'), icon='filetype-py', disabled=is_function_disabled('AI Chatbot Ex'), children=[
-							sac.MenuItem("OpenAI Basebot", icon='filetype-py'),
-							sac.MenuItem("OpenAI Basebot with streaming", icon='filetype-py'),
-							sac.MenuItem("Prompt Design Template", icon='filetype-py'),
-							sac.MenuItem("OpenAI Basebot with Prompt Design", icon='filetype-py'),
-							sac.MenuItem("Memory", icon='filetype-py'),
-							sac.MenuItem("OpenAI Basebot with Memory", icon='filetype-py'),
-							sac.MenuItem("RAG", icon='filetype-py'),
-							sac.MenuItem("OpenAI Basebot with Memory & RAG", icon='filetype-py'),
-							sac.MenuItem("Database", icon='filetype-py'),
-							sac.MenuItem("OpenAI Basebot with Memory & RAG & recorded", icon='filetype-py'),
+							sac.MenuItem("Chatbot (Ex & Ch 3)", icon='filetype-py'),
+							sac.MenuItem("Chatbot with streaming (Ex & Ch 4)", icon='filetype-py'),
+							sac.MenuItem("Prompt Design Template (Ex 5)", icon='filetype-py'),
+							sac.MenuItem("Chatbot with Prompt Design (Ch 5)", icon='filetype-py'),
+							sac.MenuItem("Memory (Ex 6)", icon='filetype-py'),
+							sac.MenuItem("Chatbot with Memory (Ch 6)", icon='filetype-py'),
+							sac.MenuItem("RAG (Ex 7)", icon='filetype-py'),
+							sac.MenuItem("Chatbot with Memory & RAG (Ch 7)", icon='filetype-py'),
+							sac.MenuItem("Database (Ex 8)", icon='filetype-py'),
+							sac.MenuItem("Chatbot with Memory & RAG & recorded (Ch 9)", icon='filetype-py'),
 						]),
 						sac.MenuItem(return_function_name('Agent Chatbot Ex','Agent Chatbot(Exercise)'), icon='filetype-py', disabled=is_function_disabled('Agent Chatbot Ex'), children=[
-							sac.MenuItem("Basic Langchain Agent Chatbot", icon='filetype-py'),
+							sac.MenuItem("Basic Langchain Agent Chatbot (Ex & Ch 10)", icon='filetype-py'),
 							sac.MenuItem("OpenAI Assistant Chatbot", icon='filetype-py'),
 						]),
 						sac.MenuItem(return_function_name('Gen AI Prototype Ex', 'GenAi prototype Application(Exercise)'), icon='filetype-py', disabled=is_function_disabled('Gen AI Prototype Ex')),
@@ -428,7 +428,7 @@ def main():
 		
 		#========================Modify the workshop code below this line========================#
 
-		elif st.session_state.option == 'Python Exercises':
+		elif st.session_state.option == 'Python (Ex 0-9 & Ch 1-3)':
 			# Code for python exercises
 			st.subheader(f":green[{st.session_state.option}]")
 			st.divider()
@@ -480,12 +480,12 @@ def main():
 			ex.streamlit_app()
 			
 			pass
-		elif st.session_state.option == 'Rule Based Chatbot (Exercise)':
+		elif st.session_state.option == 'Rule Based Chatbot (Ex & Ch 1)':
 			# Code for Rule Based Chatbot Exercise
 			# Call the rule based chatbot exercise function here
 			ex.rule_based_chatbot()
 			pass
-		elif st.session_state.option == 'Open AI API Call (Exercise)':
+		elif st.session_state.option == 'Open AI API Call (Ex & Ch 2)':
 			# call the API call exercise function here
 			if st.button("Call API"):
 				ex.api_call_exercise()
@@ -493,52 +493,52 @@ def main():
 			# Call the API challenge function here
 			ex.call_api_challenge()
 			pass
-		elif st.session_state.option == 'OpenAI Basebot':
+		elif st.session_state.option == 'Chatbot (Ex & Ch 3)':
 			# call the API call exercise function here
 			ex.ai_chatbot()
 			pass
-		elif st.session_state.option == 'OpenAI Basebot with streaming':
+		elif st.session_state.option == 'Chatbot with streaming (Ex & Ch 4)':
 			# call the openai basebot with streaming function here
 			ex.basebot()
 			pass
-		elif st.session_state.option == 'Prompt Design Template':
+		elif st.session_state.option == 'Prompt Design Template (Ex 5)':
 			# call the prompt design function here
 			ex.prompt_design()
 			pass
-		elif st.session_state.option == 'OpenAI Basebot with Prompt Design':
+		elif st.session_state.option == 'Chatbot with Prompt Design (Ch 5)':
 			# call the openai basebot with prompt design function here
 			ex.prompt_design()
 			ex.basebot_prompt_design()
 			pass
-		elif st.session_state.option == 'Memory':
+		elif st.session_state.option == 'Memory (Ex 6)':
 			# call the memory function here
 			ex.return_memory()
 			pass
-		elif st.session_state.option == 'OpenAI Basebot with Memory':
+		elif st.session_state.option == 'Chatbot with Memory (Ch 6)':
 			# call the openai basebot with memory function here
 			ex.prompt_design()
 			ex.basebot_prompt_design_memory()
 			pass
-		elif st.session_state.option == 'RAG':
+		elif st.session_state.option == 'RAG (Ex 7)':
 			# call the RAG function here
 			ex.show_rag_results()
 			pass
-		elif st.session_state.option == 'OpenAI Basebot with Memory & RAG':
+		elif st.session_state.option == 'Chatbot with Memory & RAG (Ch 7)':
 			# call the openai basebot with memory and RAG function here
 			ex.prompt_design()
 			ex.basebot_prompt_design_memory_rag()
 			pass
-		elif st.session_state.option == 'Database':
+		elif st.session_state.option == 'Database (Ex 8)':
 			# call the database function here
 			ex.initialise()
 			pass
-		elif st.session_state.option == 'OpenAI Basebot with Memory & RAG & recorded':
+		elif st.session_state.option == 'Chatbot with Memory & RAG & recorded (Ch 9)':
 			# call the openai basebot with memory and RAG function and recorded data here
 			ex.prompt_design()
 			ex.basebot_prompt_design_memory_rag_data()
 			pass
 
-		elif st.session_state.option == 'Basic Langchain Agent Chatbot':
+		elif st.session_state.option == 'Basic Langchain Agent Chatbot (Ex & Ch 10)':
 			#call the agent chatbot function here
 			on = st.toggle('Switch on to access the More Tools Agent')
 			if on:

@@ -94,6 +94,7 @@ def agent_bot():
 			memory=memory,
 			return_intermediate_steps=True,
 			handle_parsing_errors=True,
+			
 		)
 		with st.chat_message("assistant"):
 			st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
